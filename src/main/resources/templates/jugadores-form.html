@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jugador - Formulario</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #e7d4ef; /* Color de fondo */
+            color: #582f8e; /* Color del texto */
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        main {
+            background-color: #ffffff; /* Color del contenedor */
+            padding: 20px; /* Reducir padding */
+            border-radius: 12px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+            margin: 30px auto; /* Reducir margen */
+            max-width: 600px; /* Reducir ancho máximo */
+            width: 95%;
+        }
+
+        h1 {
+            font-size: 2.25rem; /* Reducir tamaño del título */
+            font-weight: bold;
+            color: #582f8e; /* Color del título */
+            text-align: center;
+            margin-bottom: 20px; /* Reducir margen inferior */
+        }
+
+        h4 {
+            font-size: 1.5rem; /* Reducir tamaño del subtítulo */
+            font-weight: bold;
+            color: #6c757d; /* Color del subtítulo */
+            margin-bottom: 15px; /* Reducir margen inferior */
+        }
+
+        .form-control,
+        .form-select {
+            background-color: #f4f7fa; /* Color de fondo de los campos */
+            color: #582f8e; /* Color del texto de los campos */
+            border: 1px solid #d3d3d3; /* Color del borde */
+            padding: 10px; /* Reducir padding */
+            font-size: 0.9rem; /* Reducir tamaño de fuente */
+            border-radius: 8px;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            box-shadow: 0 0 5px rgba(88, 47, 142, 0.25); /* Sombra en el foco */
+            border-color: #582f8e; /* Color del borde en foco */
+        }
+
+        .btn-outline-primary,
+        .btn-primary {
+            font-size: 1rem; /* Reducir tamaño de fuente */
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            padding: 10px; /* Reducir padding */
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-outline-primary {
+            border-color: #582f8e; /* Color del borde del botón */
+            color: #582f8e; /* Color del texto del botón */
+        }
+
+        .btn-outline-primary:hover {
+            background-color: #582f8e; /* Fondo del botón al pasar el mouse */
+            color: #ffffff; /* Color del texto del botón al pasar el mouse */
+            transform: translateY(-3px);
+        }
+
+        .btn-primary {
+            background-color: #582f8e; /* Color de fondo del botón */
+            border-color: #582f8e; /* Color del borde del botón */
+            color: #ffffff; /* Color del texto del botón */
+        }
+
+        .btn-primary:hover {
+            background-color: #462474; /* Fondo del botón al pasar el mouse */
+            border-color: #462474; /* Color del borde del botón al pasar el mouse */
+            color: #ffffff; /* Color del texto del botón al pasar el mouse */
+        }
+
+        .form-floating label {
+            padding: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 15px; /* Reducir margen inferior */
+        }
+
+        footer {
+            background-color: #582f8e; /* Color de fondo del pie de página */
+            color: #ffffff; /* Color del texto del pie de página */
+            padding: 10px 0; /* Reducir padding */
+            text-align: center;
+            position: relative;
+            width: 100%;
+            margin-top: 30px; /* Reducir margen superior */
+        }
+
+        footer a {
+            color: #ffffff; /* Color de los enlaces en el pie de página */
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline; /* Subrayar el enlace al pasar el mouse */
+        }
+
+        @media (max-width: 576px) {
+            h1 {
+                font-size: 1.75rem; /* Reducir tamaño en dispositivos pequeños */
+            }
+
+            .btn-outline-primary,
+            .btn-primary {
+                font-size: 0.9rem; /* Reducir tamaño en dispositivos pequeños */
+            }
+
+            .form-control,
+            .form-select {
+                font-size: 0.85rem; /* Reducir tamaño en dispositivos pequeños */
+            }
+
+            footer {
+                font-size: 0.8rem; /* Reducir tamaño en dispositivos pequeños */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid min-vh-100 d-flex flex-column justify-content-center align-items-center">
+        <main class="d-flex flex-column align-items-center p-4">
+            <h1>Registro de Jugador</h1>
+            <form th:action="@{/jugadores/save}" th:object="${jugador}" method="post" class="w-100">
+                <!-- Campo oculto para el ID del jugador -->
+                <input type="hidden" th:field="*{id}" />
+
+                <h4>Información del Jugador</h4>
+
+                <!-- Nombre del Jugador -->
+                <div class="form-group form-floating">
+                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre Jugador"
+                        th:field="*{nombre}" required />
+                    <label for="nombre">Nombre</label>
+                    <small class="form-text text-danger" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></small>
+                </div>
+
+                <!-- Apellido del Jugador -->
+                <div class="form-group form-floating">
+                    <input type="text" class="form-control" id="apellido" name="apellido"
+                        placeholder="Apellido Jugador" th:field="*{apellido}" required />
+                    <label for="apellido">Apellido</label>
+                    <small class="form-text text-danger" th:if="${#fields.hasErrors('apellido')}"
+                        th:errors="*{apellido}"></small>
+                </div>
+
+                <!-- Número del Jugador -->
+                <div class="form-group form-floating">
+                    <input type="number" class="form-control" id="numero" name="numero" placeholder="Número"
+                        th:field="*{numero}" required />
+                    <label for="numero">Número</label>
+                    <small class="form-text text-danger" th:if="${#fields.hasErrors('numero')}"
+                        th:errors="*{numero}"></small>
+                </div>
+
+                <!-- Posición del Jugador -->
+                <div class="form-group form-floating">
+                    <input type="text" class="form-control" id="posicion" name="posicion" placeholder="Posición"
+                        th:field="*{posicion}" required />
+                    <label for="posicion">Posición</label>
+                    <small class="form-text text-danger" th:if="${#fields.hasErrors('posicion')}"
+                        th:errors="*{posicion}"></small>
+                </div>
+
+                <!-- Selección del Club -->
+                <div class="form-group form-floating">
+                    <select th:field="*{club}" class="form-select" required>
+                        <option value="" disabled selected>Seleccione un club</option>
+                        <option th:each="club : ${listaClubes}" th:text="${club.nombre}" th:value="${club.id}"></option>
+                    </select>
+                    <label for="club">Club</label>
+                    <small class="form-text text-danger" th:if="${#fields.hasErrors('club')}"
+                        th:errors="*{club}"></small>
+                </div>
+
+                <!-- Botones de Enviar y Restablecer -->
+                <div class="d-grid gap-2 d-md-flex justify-content-md-center mb-4">
+                    <input type="submit" class="btn btn-outline-primary me-md-2" value="Enviar">
+                    <input type="reset" class="btn btn-primary" value="Restablecer">
+                </div>
+
+                <!-- Botón de Regresar -->
+                <div class="d-flex justify-content-center">
+                    <a href="#" class="btn btn-outline-primary" onclick="history.back()">Regresar</a>
+                </div>
+            </form>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2024 Copa Mundial. Todos los derechos reservados.</p>
+            <p><a href="/privacy-policy">Política de Privacidad</a> | <a href="/terms">Términos de Uso</a></p>
+        </footer>
+    </div>
+</body>
+
+</html>

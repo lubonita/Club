@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html">
+    <title>Competiciones</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <style>
+        body {
+            background-color: #f5f5f5; /* Fondo suave gris */
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            color: #343a40; /* Color oscuro suave */
+        }
+
+        .container {
+            background-color: #e8eaf6; /* Fondo gris claro dentro del cuadro */
+            padding: 30px;
+            border-radius: 10px;
+            margin: 50px auto;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 1200px;
+            width: 90%;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #3f51b5; /* Color más oscuro y profesional para el título */
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            background-color: #ffffff;
+            color: #424242; /* Color oscuro suave */
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table thead th {
+            background-color: #3f51b5; /* Azul oscuro elegante */
+            color: #ffffff;
+            padding: 12px;
+            text-align: center;
+        }
+
+        table tbody td {
+            padding: 12px;
+            border-bottom: 1px solid #dee2e6;
+            text-align: center;
+        }
+
+        .btn-outline-primary {
+            border-color: #3f51b5;
+            color: #3f51b5;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            padding: 12px;
+            border-radius: 5px;
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
+            display: inline-block; /* Cambiado a inline-block */
+            margin-bottom: 20px; /* Añadido margen inferior */
+        }
+
+        .btn-outline-primary:hover {
+            background-color: #3f51b5;
+            color: #ffffff;
+            transform: translateY(-3px);
+        }
+
+        .btn-outline-success {
+            border-color: #388e3c; /* Verde oscuro */
+            color: #388e3c;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            padding: 12px;
+            border-radius: 5px;
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
+            display: inline-block; /* Cambiado a inline-block */
+            margin-bottom: 20px; /* Añadido margen inferior */
+        }
+
+        .btn-outline-success:hover {
+            background-color: #388e3c;
+            color: #ffffff;
+            transform: translateY(-3px);
+        }
+
+        .btn-info,
+        .btn-danger {
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        .btn-info {
+            background-color: #3f51b5; /* Azul oscuro */
+            border-color: #3f51b5;
+            color: #ffffff;
+        }
+
+        .btn-info:hover {
+            background-color: #303f9f; /* Azul más oscuro */
+            border-color: #303f9f;
+            color: #ffffff;
+            transform: scale(1.05);
+        }
+
+        .btn-danger {
+            background-color: #f44336; /* Rojo */
+            border-color: #f44336;
+            color: #ffffff;
+        }
+
+        .btn-danger:hover {
+            background-color: #d32f2f; /* Rojo más oscuro */
+            border-color: #d32f2f;
+            color: #ffffff;
+            transform: scale(1.05);
+        }
+
+        footer {
+            text-align: center; /* Centramos el texto en el pie de página */
+            margin-top: 20px;
+            color: #6c757d; /* Color gris para el texto del pie de página */
+            padding: 10px 0; /* Añadido padding para mayor separación */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Competiciones</h2>
+        <div class="d-flex justify-content-center">
+            <div class="p-3">
+                <a th:href="@{/competiciones/new}" class="btn btn-outline-primary">Insertar Competición</a>
+            </div>
+            <div class="p-3">
+                <a th:href="@{/index}" class="btn btn-outline-success">Inicio</a>
+            </div>
+        </div>
+        <table class="table table-hover" id="competitions-table">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Monto de Premio</th>
+                    <th>Fecha de Inicio</th>
+                    <th>Fecha de Fin</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="competicion: ${competiciones}">
+                    <td th:text="${competicion.nombre}"></td>
+                    <td th:text="${competicion.montoPremio}"></td>
+                    <td th:text="${competicion.fechaInicio}"></td>
+                    <td th:text="${competicion.fechaFin}"></td>
+                    <td>
+                        <a class="btn btn-info btn-sm" th:href="@{'/competiciones/edit/' + ${competicion.id}}">Editar</a>
+                        <a class="btn btn-danger btn-sm" th:href="@{'/competiciones/delete/' + ${competicion.id}}"
+                            onclick="return confirm('¿Estás seguro de eliminar esta competicion?');">Eliminar</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <footer>
+        Derechos reservados &copy; 2024. Creado por Luz Zafra.
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/vfs_fonts.js"></script>
+</body>
+
+</html>

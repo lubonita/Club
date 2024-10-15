@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html">
+    <title>Asociaciones</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            background-color: #f5f5f5; /* Fondo suave gris */
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            color: #343a40; /* Color oscuro suave */
+            position: relative;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: #e8eaf6; /* Fondo gris claro dentro del cuadro */
+            padding: 30px;
+            border-radius: 10px;
+            margin: 50px auto;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 1200px;
+            width: 90%;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #3f51b5; /* Color más oscuro y profesional para el título */
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            background-color: #ffffff; /* Blanco para la tabla */
+            color: #424242; /* Color oscuro para el texto de la tabla */
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table thead th {
+            background-color: #3f51b5; /* Azul oscuro elegante */
+            color: #ffffff; /* Blanco para el texto del encabezado */
+            padding: 10px;
+            text-align: center;
+        }
+
+        table tbody td {
+            padding: 10px;
+            border-bottom: 1px solid #dee2e6; /* Línea suave para las celdas */
+            text-align: center;
+        }
+
+        .btn-outline-primary {
+            border-color: #3f51b5; /* Azul oscuro */
+            color: #3f51b5;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            display: block;
+        }
+
+        .btn-outline-primary:hover {
+            background-color: #3f51b5; /* Azul oscuro */
+            color: #ffffff; /* Blanco al hacer hover */
+            transform: translateY(-3px);
+        }
+
+        .btn-outline-success {
+            border-color: #388e3c; /* Verde medio */
+            color: #388e3c;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            display: block;
+        }
+
+        .btn-outline-success:hover {
+            background-color: #388e3c; /* Verde medio */
+            color: #ffffff; /* Blanco al hacer hover */
+            transform: translateY(-3px);
+        }
+
+        .btn-info,
+        .btn-danger {
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        .btn-info {
+            background-color: #3f51b5; /* Azul oscuro */
+            border-color: #3f51b5;
+            color: #ffffff; /* Blanco */
+        }
+
+        .btn-info:hover {
+            background-color: #303f9f; /* Azul más oscuro */
+            border-color: #303f9f;
+            color: #ffffff; /* Blanco */
+            transform: scale(1.05);
+        }
+
+        .btn-danger {
+            background-color: #f44336; /* Rojo */
+            border-color: #f44336;
+            color: #ffffff; /* Blanco */
+        }
+
+        .btn-danger:hover {
+            background-color: #d32f2f; /* Rojo más oscuro */
+            border-color: #d32f2f;
+            color: #ffffff; /* Blanco */
+            transform: scale(1.05);
+        }
+
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #6c757d; /* Color gris para el pie de página */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Asociaciones</h2>
+
+        <div class="d-flex justify-content-center mb-3">
+            <div class="p-3">
+                <a th:href="@{/asociaciones/new}" class="btn btn-outline-primary">Insertar Asociación</a>
+            </div>
+            <div class="p-3">
+                <a th:href="@{/index}" class="btn btn-outline-success">Inicio</a>
+            </div>
+        </div>
+
+        <table class="table table-hover" id="associations-table">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>País</th>
+                    <th>Presidente</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="asociacion: ${asociaciones}">
+                    <td th:text="${asociacion.nombre}"></td>
+                    <td th:text="${asociacion.pais}"></td>
+                    <td th:text="${asociacion.presidente}"></td>
+                    <td>
+                        <a class="btn btn-info btn-sm" th:href="@{'/asociaciones/edit/' + ${asociacion.id}}">Editar</a>
+                        <a class="btn btn-danger btn-sm" th:href="@{'/asociaciones/delete/' + ${asociacion.id}}"
+                            onclick="return confirm('¿Estás seguro de eliminar esta asociación?');">Eliminar</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <footer>
+        Derechos reservados &copy; 2024. Creado por Luz Zafra.
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+</body>
+
+</html>
