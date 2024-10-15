@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrenador</title>
+
+    <link rel="stylesheet" href="./css/estilos.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&family=Source+Serif+Pro&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            background-image: url('https://media.istockphoto.com/id/1287384349/es/foto/pelota-de-f%C3%BAtbol-y-f%C3%BAtbol-y-port%C3%A1til-gris-sobre-fondo-gris-concepto-de-entrenamiento.jpg?s=1024x1024&w=is&k=20&c=TbS95yz0bR6BdFfWJqsbOWik3TzmOdTXgQ2iP_8N5pk='); /* Imagen de fondo */
+            background-size: cover; /* Cubrir todo el fondo */
+            background-position: center; /* Centrar la imagen */
+            color: #343a40; /* Color oscuro para el texto */
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        main {
+            background-color: rgba(232, 211, 243, 0.9); /* Fondo morado claro con algo de transparencia */
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+            margin: 50px auto;
+            max-width: 800px;
+            width: 90%;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #5e35b1; /* Color morado oscuro */
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h4 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #6a1b9a; /* Color morado más oscuro */
+            margin-bottom: 20px;
+            text-align: center; /* Centrar el subtítulo */
+        }
+
+        .form-control,
+        .form-select {
+            background-color: #ffffff; /* Fondo blanco para los campos */
+            color: #343a40; /* Color oscuro para el texto */
+            border: 2px solid #5e35b1; /* Borde morado oscuro */
+            transition: all 0.3s ease; /* Transición para el efecto de enfoque */
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #7b1fa2; /* Morado al enfocar */
+            box-shadow: 0 0 5px rgba(123, 31, 162, 0.5); /* Sombra al enfocar */
+        }
+
+        .btn-enviar {
+            background-color: #6a1b9a; /* Morado para enviar */
+            border: none;
+            color: #ffffff; /* Blanco */
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-radius: 5px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .btn-enviar:hover {
+            background-color: #5e35b1; /* Color más oscuro al hacer hover */
+            transform: translateY(-3px);
+        }
+
+        .btn-restablecer {
+            background-color: #d32f2f; /* Rojo para restablecer */
+            border: none;
+            color: #ffffff; /* Blanco */
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-radius: 5px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .btn-restablecer:hover {
+            background-color: #c62828; /* Color más oscuro al hacer hover */
+            transform: translateY(-3px);
+        }
+
+        .btn-regresar {
+            background-color: #7b1fa2; /* Morado claro para regresar */
+            border: none;
+            color: #ffffff; /* Blanco */
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-radius: 5px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            display: block;
+            margin: 10px auto; /* Centrando el botón regresar */
+        }
+
+        .btn-regresar:hover {
+            background-color: #6a1b9a; /* Color más oscuro al hacer hover */
+            transform: translateY(-3px);
+        }
+
+        .d-flex {
+            justify-content: space-between; /* Espacio entre botones */
+        }
+    </style>
+</head>
+
+<body class="container d-flex flex-column justify-content-center align-items-center">
+    <main class="d-flex flex-column align-items-center p-4 m-3">
+        <h1>Entrenador</h1>
+        <h4>Solicitud de datos:</h4>
+        <form th:action="@{/entrenadores/save}" th:object="${entrenador}" method="post"
+            class="d-flex flex-column p-4 g-3 needs-validation m-3">
+            <input type="hidden" th:field="*{id}" th:value="${entrenador.id}" />
+
+            <div class="mb-3 form-floating">
+                <input type="text" class="form-control" name="nombre" placeholder="Nombre Entrenador:"
+                    th:field="*{nombre}" th:errorclass="'form-control alert-danger'" />
+                <small class="form-text text-danger" th:if="${#fields.hasErrors('nombre')}"
+                    th:errors="*{nombre}"></small>
+                <label for="nombre" class="form-label">Nombre: </label>
+            </div>
+
+            <div class="mb-3 form-floating">
+                <input type="text" class="form-control" name="apellido" placeholder="Apellido Entrenador:"
+                    th:field="*{apellido}" th:errorclass="'form-control alert-danger'" />
+                <small class="form-text text-danger" th:if="${#fields.hasErrors('apellido')}"
+                    th:errors="*{apellido}"></small>
+                <label for="apellido" class="form-label">Apellido: </label>
+            </div>
+
+            <div class="mb-3 form-floating">
+                <input type="number" class="form-control" name="edad" placeholder="Edad Entrenador:" th:field="*{edad}"
+                    th:errorclass="'form-control alert-danger'" />
+                <small class="form-text text-danger" th:if="${#fields.hasErrors('edad')}" th:errors="*{edad}"></small>
+                <label for="edad" class="form-label">Edad: </label>
+            </div>
+
+            <div class="mb-3 form-floating">
+                <input type="text" class="form-control" name="nacionalidad" placeholder="Nacionalidad Entrenador:"
+                    th:field="*{nacionalidad}" th:errorclass="'form-control alert-danger'" />
+                <small class="form-text text-danger" th:if="${#fields.hasErrors('nacionalidad')}"
+                    th:errors="*{nacionalidad}"></small>
+                <label for="nacionalidad" class="form-label">Nacionalidad: </label>
+            </div>
+
+            <div class="d-flex mb-3">
+                <input type="submit" class="btn btn-enviar me-2" value="Enviar">
+                <input type="reset" class="btn btn-restablecer" value="Restablecer">
+            </div>
+            <a href="#" class="btn btn-regresar" onclick="history.back()">Regresar</a>
+        </form>
+    </main>
+</body>
+
+</html>
